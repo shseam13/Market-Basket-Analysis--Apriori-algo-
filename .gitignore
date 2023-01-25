@@ -140,3 +140,17 @@ dmypy.json
 cython_debug/
 
 mba_env
+/media
+db.sqlite3
+/static
+
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json

@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+{% block content %}
+
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">{{product.title}}</h1>
+          <p class="lead">
+            <i class="fa fa-list-alt"></i> {{product.catagory}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Alerts -->
+  {% include 'partials/_alerts.html' %}
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{% url 'products' %}">Products</a>
+          </li>
+          <li class="breadcrumb-item active"> {{product.title}}</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listing -->
+  <section id="listing" class="py-4">
+    <div class="container">
+      <a href="{% url 'products' %}" class="btn btn-light mb-4">Back To Products List</a>
+      <div class="row">
+        <div class="col-md-9">
+          <!-- Home Main Image -->
+          <img src="{{ product.photo_main.url }}">
+          <!-- Thumbnails -->
+          <div class="row mb-5 thumbs">
+            {% if product.photo_1 %}
+            <div class="col-md-2">
+              <a href="{{ product.photo_1.url }}" data-lightbox="home-images">
+                <img src="{{ product.photo_1.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            {% if product.photo_2 %}
+            <div class="col-md-2">
+              <a href="{{ product.photo_2.url }}" data-lightbox="home-images">
+                <img src="{{ product.photo_2.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            {% if product.photo_3 %}
+            <div class="col-md-2">
+              <a href="{{ product.photo_3.url }}" data-lightbox="home-images">
+                <img src="{{ product.photo_3.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            {% if product.photo_4 %}
+            <div class="col-md-2">
+              <a href="{{ product.photo_4.url }}" data-lightbox="home-images">
+                <img src="{{ product.photo_4.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+            {% if product.photo_5 %}
+            <div class="col-md-2">
+              <a href="{{ product.photo_5.url }}" data-lightbox="home-images">
+                <img src="{{ product.photo_5.url }}" alt="" class="img-fluid">
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          <!-- Fields -->
+          <div class="row mb-5 fields">
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-th-large"></i> Catagory:
+                  <span class="float-right">{{ product.catagory }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-balance-scale"></i> M/O:
+                  <span class="float-right">
+                    {% if product.catagory == 'Beverages'%}
+                      {{ product.min_order }} Pcs
+                    {% else %}
+                      {{ product.min_order }} Kgs
+                    {% endif %}
+                  </span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-calendar"></i> Listing Date:
+                  <span class="float-right">{{product.list_date | naturaltime}}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-building"></i> Brand:
+                  <span class="float-right"> {{product.brand}}
+                  </span>
+                </li>
+
+
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-money-bill-alt"></i> Offer Price:
+                  <span class="float-right">{{ product.price | intcomma }}Tk</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fa fa-home"></i> COD:
+                  <span class="float-right">Yes</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-car"></i> Delivery Charge    :
+                  <span class="float-right"> {{product.delevary}}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="row mb-5">
+            <div class="col-md-12">
+              {{product.description}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card mb-3">
+            <img class="card-img-top" src="{{product.seller.photo.url}}" alt="Seller Picture">
+            <div class="card-body">
+              <h5 class="card-title">Seller</h5>
+              <h6 class="text-secondary">{{product.seller}}</h6>
+            </div>
+          </div>
+          <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Check Out</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inquiry Modal -->
+  <div class="modal fade" id="inquiryModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="inquiryModalLabel">Check Out</h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action={% url 'contact' %} method="POST">
+              {% csrf_token %}
+              {% if user.is_authenticated %}
+                <input type="hidden"  name="username" value="{{ user.username }}">
+                <input type="hidden"  name="user_id" value="{{ user.id }}">
+              {% else %}
+                <input type="hidden"  name="user_id" value="0">
+              {% endif %}
+              <input type="hidden" name="product_id" value="{{ product.product_id }}">
+            <div class="form-group">
+              <label for="product_name" class="col-form-label">Product:</label>
+              <input type="text" name="product" class="form-control" value="{{product.title}}">
+            </div>
+            <div class="form-group">
+              <label for="name" class="col-form-label">Name:</label>
+              <input type="text" name="name" class="form-control" 
+              {% if user.is_authenticated %}
+                value = "{{ user.first_name }}"
+              {% endif %}
+              required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-form-label">Email:</label>
+              <input type="email" name="email" class="form-control" 
+              {% if user.is_authenticated %}
+                value = "{{ user.email }}"
+              {% endif %}
+              required>
+            </div>
+            <div class="form-group">
+              <label for="phone" class="col-form-label">Phone:</label>
+              <input type="text" name="phone" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="address" class="col-form-label">Address:</label>
+              <textarea name="address" class="form-control"
+              {% if user.is_authenticated %}
+                value = "{{ user.address }}"
+              {% endif %}
+              required></textarea>
+            </div>
+            <hr>
+            <input type="submit" value="Send" class="btn btn-block btn-secondary">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
