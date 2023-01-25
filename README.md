@@ -1,6 +1,6 @@
-# Newspaper-seller-problem
+# Market Basket Analysis in Web using Apriori algorithm
 Market Basket Analysis
-# Implementation of excel sheet using python
+# Implementation of apriori algorithm for grocery using Django
 
 ## Appendix
 
