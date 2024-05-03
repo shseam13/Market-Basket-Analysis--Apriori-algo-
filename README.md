@@ -1,4 +1,4 @@
-# Market Basket Analysis apriori algorithm
+# Market Basket Analysis improved apriori algorithm
 Market Basket Analysis
 # Improving accuracy of product recommendation and implemented on live project.
 ## Roadmap serial to see live implementation
