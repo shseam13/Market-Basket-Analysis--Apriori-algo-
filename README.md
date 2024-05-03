@@ -1,12 +1,7 @@
 # Market Basket Analysis in Web using Apriori algorithm
 Market Basket Analysis
-# Implementation of apriori algorithm for grocery using Django
-
-## Appendix
-
-This project simulates Newspaper Seller's Problem
-
-## Roadmap serial
+# Improving accuracy of product recommendation and implemented on live project.
+## Roadmap serial to see live implementation
 
 - mba_env\Scripts\activate
 - python manage.py runserver
